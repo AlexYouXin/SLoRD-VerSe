@@ -125,7 +125,7 @@ def distance2mask(data, dim, step, z, y, x):
     contour_combine = torch.zeros((B, dim[0] * dim[1], 3)).cuda()
     data['r'] = data['r'].reshape(B, dim[0], dim[1])           # B * 2664 -> B * 72 * 37
     out, xr, yr, zr, r1 = decoding_theta(data, dim, step)         # B * 3 * 72 * 37
-    # 转换回来：0-z, 1-y, 2-x
+    # Transform back：0-z, 1-y, 2-x
     contour_combine[:, :, 2] = out[:, 0].flatten(1).clamp(0, x)
     # contour_combine[:, :, 2] = contour_combine[:, :, 2]
     contour_combine[:, :, 1] = out[:, 1].flatten(1).clamp(0, y)
