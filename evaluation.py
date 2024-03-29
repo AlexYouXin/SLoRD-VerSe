@@ -40,12 +40,6 @@ def calculate_metric_percase(pred, gt, space):
 def evaluation_metric(pred, gt, space):
     index = np.nonzero(gt)
     index = np.transpose(index)
-    z_min = np.min(index[:, 0])
-    z_max = np.max(index[:, 0])
-    y_min = np.min(index[:, 1])
-    y_max = np.max(index[:, 1])
-    x_min = np.min(index[:, 2])
-    x_max = np.max(index[:, 2])
 
     flatten_label = gt.flatten()
     list_label = flatten_label.tolist()
@@ -59,33 +53,33 @@ def evaluation_metric(pred, gt, space):
     index = np.zeros(classes)
     metric_list = np.zeros((classes, 3))
     for i in range(1, length):
-        metric_list[list_label_[i], :] = calculate_metric_percase(pred[z_min: z_max, y_min: y_max, x_min: x_max] == list_label_[i], gt[z_min: z_max, y_min: y_max, x_min: x_max] == list_label_[i], space)
+        metric_list[list_label_[i], :] = calculate_metric_percase(pred == list_label_[i], gt == list_label_[i], space)
         index[list_label_[i]] += 1
 
     return metric_list, index
 
 if __name__ == "__main__":
     # load image
-    out_path = 'F:/visualization/eigencontour/coarse_prediction/fusion_4_fullyconnected/'
+    out_path = 'xxxxxx/'
 
     classes = 26
 
-    sample_list = open(os.path.join('F:/Pythonprojects/verse_contour/evaluation', 'test.txt')).readlines()
+    sample_list = open(os.path.join('xxxx/evaluation', 'test.txt')).readlines()
 
     num_file = len(sample_list)
 
     metric_list = 0.0
     index = 0.0
-    ave_dice = 0                  # 记录按case计算的均值
+    ave_dice = 0
     ave_hd95 = 0
     ave_hd = 0
-    dice_case = []                  # 记录每个case的数值
+    dice_case = []
     hd95_case = []
     hd_case = []
 
     for i in range(num_file):
         file = sample_list[i].strip('\n')
-        pred = sitk.ReadImage(out_path + file.replace('.gz', '.gz_fusion.nii.gz'))         # gz_coarse
+        pred = sitk.ReadImage(out_path + file.replace('.gz', '.gz_fusion.nii.gz'))
         label = sitk.ReadImage(out_path + file.replace('.gz', '.gz_gt.nii.gz'))
         origin = pred.GetOrigin()
         space = pred.GetSpacing()
@@ -140,8 +134,8 @@ if __name__ == "__main__":
     ave_hd95 = ave_hd95 / 40
     ave_hd = ave_hd / 40
     print('Testing performance on cases: mean_dice : %f mean_hd95 : %f  mean_hd : %f' % (ave_dice, ave_hd95, ave_hd))
-    # 中位数
-    # 排序
+    # medium
+    # sort
     dice_case = np.sort(dice_case)
     hd95_case = np.sort(hd95_case)
     hd_case = np.sort(hd_case)
