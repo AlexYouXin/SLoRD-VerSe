@@ -3,7 +3,7 @@
 This is the official pytorch implementation of SLoRD.
 
 # Pipeline
-
+![image](https://github.com/AlexYouXin/PnPNet/blob/main/figs/uncertain_type.png)
 
 # Detailed structures
 
