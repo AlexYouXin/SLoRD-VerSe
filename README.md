@@ -6,7 +6,7 @@ This is the official pytorch implementation of SLoRD.
 ![image](https://github.com/AlexYouXin/SLoRD-VerSe/blob/main/pipeline.png)
 
 # Detailed structures
-![image](https://github.com/AlexYouXin/SLoRD-VerSe/blob/main/structure.png)
+![image](https://github.com/AlexYouXin/SLoRD-VerSe/blob/main/decoded_structure.png)
 
 
 # Ackonwledgement
