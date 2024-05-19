@@ -3,7 +3,7 @@
 This is the official pytorch implementation of SLoRD.
 
 # Pipeline
-![pdf](https://github.com/AlexYouXin/SLoRD-VerSe/blob/main/pipeline_refined.pdf)
+<a href="AlexYouXin.github.io/SLoRD-VerSe/blob/main/pipeline_refined.pdf" target="_blank">PDF.</a>
 
 # Detailed structures
 
