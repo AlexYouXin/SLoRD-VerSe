@@ -35,9 +35,9 @@ parser.add_argument('--deterministic', type=int,  default=1,
 parser.add_argument('--base_lr', type=float,  default=0.01,        # 0.01
                     help='segmentation network learning rate')
 parser.add_argument('--img_size', type=int,
-                    default=[64, 112, 96], help='input patch size of network input')                 # network input image size : 128
+                    default=[112, 128, 64], help='input patch size of network input')                 # network input image size : 128
 parser.add_argument('--coefficient', type=int,
-                    default=512, help='input patch size of network input')
+                    default=200, help='input patch size of network input')
 parser.add_argument('--seed', type=int,
                     default=1234, help='random seed')
 parser.add_argument('--n_skip', type=int,
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = '2, 3'         # '0,1,2,3'
     torch.cuda.empty_cache()
     # net = Net(in_channel=3, out_channel=args.num_classes, training=False, config=config_vit).cuda()
-    net = network(in_channel=3, out_channel=args.num_classes, z=args.img_size[0], y=args.img_size[1], x=args.img_size[2], num_coefficient=args.coefficient, args=args).cuda()
+    net = network(in_channel=4, out_channel=args.num_classes, z=args.img_size[0], y=args.img_size[1], x=args.img_size[2], num_coefficient=args.coefficient, args=args).cuda()
     # load pretrained weight
     # net.load_from(weights=np.load(config_vit.pretrained_path))
 

@@ -45,15 +45,16 @@ class center_regression(nn.Module):
         self.x_index = nn.Parameter(x_index, requires_grad=False)
         self.pool = nn.AdaptiveAvgPool3d((3, 1, 1))
 
-    def forward(self, x, mask):
+    def forward(self, x):
         # x: B * C * dim * H/16 * W/16 * L/16
         x = self.encoder1(x)
         x = self.encoder2(x)
         x = self.encoder3(x)
         x = self.encoder4(x)
-        mask = torch.sigmoid(mask)
-        center_residual = self.pool(x).flatten(2)  # b * 3 * 3
+        # mask = torch.sigmoid(mask)
+        center = self.pool(x).flatten(2)  # b * 3 * 3
         # print(mask.shape, self.num_batch)
+        '''
         z_center = torch.mean(mask * self.z_index.unsqueeze(0).repeat(self.num_batch, 1, 1, 1),
                               dim=(1, 2, 3)).repeat(1, 3).unsqueeze(2)
         y_center = torch.mean(mask * self.y_index.unsqueeze(0).repeat(self.num_batch, 1, 1, 1),
@@ -63,6 +64,7 @@ class center_regression(nn.Module):
         center = torch.cat((z_center, y_center, x_center), 2)
         # print(center.shape, center_residual.shape)
         center = center + center_residual            # b * 3 * 3
+        '''
         return center
 
 

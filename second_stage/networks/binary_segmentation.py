@@ -7,7 +7,7 @@ from . center_regression_net import center_regression
 
 
 class network(nn.Module):
-    def __init__(self, in_channel=3, out_channel=2, z=64, y=112, x=96, num_coefficient=500, args=None):
+    def __init__(self, in_channel=4, out_channel=2, z=64, y=112, x=96, num_coefficient=500, args=None):
         super(network, self).__init__()
         self.hybrid_model = ResNetV2(block_units=(2, 3, 3), width_factor=1)
         self.width = 32
@@ -48,7 +48,7 @@ class network(nn.Module):
     def forward(self, x):
         # print(x.shape)
         if x.size()[1] == 1:
-            x = x.repeat(1,3,1,1,1)
+            x = x.repeat(1,4,1,1,1)
         t1 = self.encoder1(x)
     
         x, features = self.hybrid_model(t1)
