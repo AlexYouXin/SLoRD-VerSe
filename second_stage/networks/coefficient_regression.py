@@ -34,7 +34,7 @@ class coefficient(nn.Module):
 
 
         
-        self.pool = nn.AdaptiveAvgPool3d((1, 1, 1))
+        self.pool = nn.AdaptiveAvgPool3d((3, 1, 1))
 
     def forward(self, x, mask_embedding):
 
@@ -49,7 +49,7 @@ class coefficient(nn.Module):
         
         x = self.encoder4(self.encoder3(x))
         
-        coefficient = self.pool(x).flatten(1)
+        coefficient = self.pool(x).flatten(2)
         
         
         return coefficient
