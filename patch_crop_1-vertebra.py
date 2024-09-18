@@ -28,7 +28,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--num_classes', type=int,
                     default=26, help='output channel of network')
-parser.add_argument('--img_size', type=int, default=[64, 112, 96], help='input patch size of network input')
+parser.add_argument('--img_size', type=int, default=[64, 112, 64], help='input patch size of network input')
 
 parser.add_argument('--test_save_dir', type=str, default='../predictions', help='saving prediction as nii!')
 parser.add_argument('--deterministic', type=int,  default=1, help='whether use deterministic training')

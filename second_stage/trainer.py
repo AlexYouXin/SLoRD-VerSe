@@ -160,7 +160,7 @@ def validation(model, writer, dice_loss, ce_loss, center_loss, contour_loss, arg
 
 
 def run_main(args, model, snapshot_path):
-    from datasets.dataset_synapse import Synapse_dataset, RandomGenerator
+    from datasets.dataset import verse_dataset, RandomGenerator
     logging.basicConfig(filename=snapshot_path + "/log.txt", level=logging.INFO,
                         format='[%(asctime)s.%(msecs)03d] %(message)s', datefmt='%H:%M:%S')
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
@@ -168,11 +168,11 @@ def run_main(args, model, snapshot_path):
 
     batch_size = args.batch_size * args.n_gpu
     # random crop 224 * 224 patches from 512 * 512 patches
-    db_train = Synapse_dataset(base_dir=args.train_root_path, list_dir=args.list_dir, split="train", num_classes=args.num_classes, args=args)
+    db_train = verse_dataset(base_dir=args.train_root_path, list_dir=args.list_dir, split="train", num_classes=args.num_classes, args=args)
 
     print("The length of train set is: {}".format(len(db_train)))
     # random crop 224 * 224 patches from 512 * 512 patches
-    db_val = Synapse_dataset(base_dir=args.val_root_path, list_dir=args.list_dir, split="val", num_classes=args.num_classes, args=args)
+    db_val = verse_dataset(base_dir=args.val_root_path, list_dir=args.list_dir, split="val", num_classes=args.num_classes, args=args)
     
     print("The length of val set is: {}".format(len(db_val)))
 

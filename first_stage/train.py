@@ -18,7 +18,7 @@ parser.add_argument('--train_root_path', type=str,
 parser.add_argument('--val_root_path', type=str,
                     default='xxxxxx/verse19', help='root dir for val data')
 parser.add_argument('--dataset', type=str,
-                    default='Synapse', help='experiment_name')
+                    default='verse', help='experiment_name')
 parser.add_argument('--list_dir', type=str,
                     default='xxxxx/lists/lists_Synapse', help='list dir')
 parser.add_argument('--num_classes', type=int,
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     
     dataset_name = args.dataset
     dataset_config = {
-        'Synapse': {
+        'verse': {
             'train_root_path': 'xxxxx/verse19',
             'val_root_path': 'xxxxxx/verse19',
             'list_dir': 'xxxxx/lists/lists_Synapse',
@@ -134,6 +134,6 @@ if __name__ == "__main__":
 
 
     # train the network
-    transunet = {'Synapse': run_main,}
+    transunet = {'verse': run_main,}
     transunet[dataset_name](args, net, snapshot_path)
 

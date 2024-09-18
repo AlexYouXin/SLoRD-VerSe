@@ -9,7 +9,7 @@ import torch.backends.cudnn as cudnn
 import torch.nn as nn
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from datasets.dataset_synapse import Synapse_dataset
+from datasets.dataset import verse_dataset
 from utils import test_single_volume
 from networks.vit_seg_modeling import VisionTransformer as ViT_seg
 
@@ -22,7 +22,7 @@ parser.add_argument('--volume_path', type=str,
 parser.add_argument('--edge_path', type=str,
                     default='xxxxxx/verse19', help='edge dir for train and val data')
 parser.add_argument('--dataset', type=str,
-                    default='Synapse', help='experiment_name')
+                    default='verse', help='experiment_name')
 parser.add_argument('--num_classes', type=int,
                     default=26, help='output channel of network')
 parser.add_argument('--list_dir', type=str,
@@ -137,8 +137,8 @@ if __name__ == "__main__":
     torch.cuda.manual_seed(args.seed)
 
     dataset_config = {
-        'Synapse': {
-            'Dataset': Synapse_dataset,
+        'verse': {
+            'Dataset': verse_dataset,
             'volume_path': 'xxxxxxxxxx/verse19',
             'list_dir': 'xxxxxxxxxxx/lists/lists_Synapse',
             'num_classes': 26,

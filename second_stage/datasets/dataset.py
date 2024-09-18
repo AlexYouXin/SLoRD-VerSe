@@ -78,11 +78,11 @@ def intensity_scale(image):
 # x: label   n: num of classes
 # to one hot vector
 def make_one_hot_3d(x, n):
-    one_hot = torch.zeros([n, x.shape[0], x.shape[1], x.shape[2]])  # 创建one-hot编码后shape的zero张量
+    one_hot = torch.zeros([n, x.shape[0], x.shape[1], x.shape[2]])
     for i in range(x.shape[0]):
         for j in range(x.shape[1]):
             for v in range(x.shape[2]):
-                one_hot[np.int(x[i, j, v]), i, j, v] = 1  # 给相应类别的位置置位1，模型预测结果也应该是这个shape. int(x[i, j, v])记录了原来的像素值
+                one_hot[np.int(x[i, j, v]), i, j, v] = 1
     return one_hot
 
 
@@ -99,7 +99,7 @@ class RandomGenerator(object):
         # crop alongside with the ground truth
 
         index = np.nonzero(label)
-        index = np.transpose(index)  # 转置后变成二维矩阵，每一行有三个索引元素，分别对应z,x,y三个方向
+        index = np.transpose(index)
 
         z_min = np.min(index[:, 0])
         z_max = np.max(index[:, 0])
@@ -139,12 +139,12 @@ class RandomGenerator(object):
         crop_x_down = x_random - np.int(self.output_size[2] / 2)
         crop_x_up = x_random + np.int(self.output_size[2] / 2)
 
-        # 判断是否越界,若越界，加入padding，否则不变
+
         if crop_z_down < 0 or crop_z_up > image.shape[0]:
             delta_z = np.maximum(np.abs(crop_z_down), np.abs(crop_z_up - image.shape[0]))
             image = np.pad(image, ((delta_z, delta_z), (0, 0), (0, 0)), 'constant', constant_values=min_value)
             label = np.pad(label, ((delta_z, delta_z), (0, 0), (0, 0)), 'constant', constant_values=0.0)
-            # 注意此时索引会相应的变化，防止索引为负值
+
             crop_z_down = crop_z_down + delta_z
             crop_z_up = crop_z_up + delta_z
 
@@ -152,7 +152,7 @@ class RandomGenerator(object):
             delta_y = np.maximum(np.abs(crop_y_down), np.abs(crop_y_up - image.shape[1]))
             image = np.pad(image, ((0, 0), (delta_y, delta_y), (0, 0)), 'constant', constant_values=min_value)
             label = np.pad(label, ((0, 0), (delta_y, delta_y), (0, 0)), 'constant', constant_values=0.0)
-            # 注意此时索引会相应的变化，防止索引为负值
+
             crop_y_down = crop_y_down + delta_y
             crop_y_up = crop_y_up + delta_y
 
@@ -160,7 +160,7 @@ class RandomGenerator(object):
             delta_x = np.maximum(np.abs(crop_x_down), np.abs(crop_x_up - image.shape[2]))
             image = np.pad(image, ((0, 0), (0, 0), (delta_x, delta_x)), 'constant', constant_values=min_value)
             label = np.pad(label, ((0, 0), (0, 0), (delta_x, delta_x)), 'constant', constant_values=0.0)
-            # 注意此时索引会相应的变化，防止索引为负值
+
             crop_x_down = crop_x_down + delta_x
             crop_x_up = crop_x_up + delta_x
 
@@ -197,7 +197,7 @@ class RandomGenerator(object):
         return sample
 
 
-class Synapse_dataset(Dataset):
+class verse_dataset(Dataset):
     def __init__(self, base_dir, list_dir, split, num_classes, args):
         self.h = args.img_size[0] / 2
         self.w = args.img_size[1] / 2
@@ -365,78 +365,5 @@ class Synapse_dataset(Dataset):
             sample['origin'] = origin
             sample['spacing'] = spacing
         return sample
-
-
-# 测试代码
-import matplotlib.pyplot as plt
-
-
-def main():
-    db_train = Synapse_dataset(base_dir=args.train_root_path, list_dir=args.list_dir, split="train",
-                               num_classes=args.num_classes,
-                               transform=transforms.Compose(
-                                   [RandomGenerator(output_size=args.img_size, mode='train')]))
-
-    def worker_init_fn(worker_id):
-        random.seed(args.seed + worker_id)
-
-    trainloader = DataLoader(db_train, batch_size=args.batch_size, shuffle=True, num_workers=8, pin_memory=True,
-                             # m_worker: 8    ---->>   4
-                             worker_init_fn=worker_init_fn)
-    for batch_idx, sampled_batch in enumerate(trainloader):
-        # print('label max: ', torch.max(target))
-
-        image = sampled_batch['image']
-        label = sampled_batch['label']
-        print('idx:', batch_idx)
-        print('input data shape:', image.shape, 'output data shape:',
-              label.shape)  # torch.Size([1, 1, 64, 64, 64]) torch.Size([1, 64, 64, 64])
-        plt.subplot(121)
-        plt.imshow(image[0, 0, :, :, 32], cmap='gray')
-        plt.subplot(122)
-        plt.imshow(label[0, :, :, 32], cmap='gray')
-        # plt.show()
-        plt.pause(0.5)
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--train_root_path', type=str,
-                        default='/home/youxin/YX_data/medical image dataset/verse_preprocessed_update',
-                        help='root dir for train data')
-    parser.add_argument('--val_root_path', type=str,
-                        default='/home/youxin/YX_data/medical image dataset/verse_preprocessed_update',
-                        help='root dir for val data')
-    parser.add_argument('--dataset', type=str,
-                        default='Synapse', help='experiment_name')
-    parser.add_argument('--list_dir', type=str,
-                        default='/home/youxin/YX_data/Pythonprojects/trans3dunet_multi_class/trans3dUNet_multi_calss/lists/lists_Synapse',
-                        help='list dir')
-    parser.add_argument('--num_classes', type=int,
-                        default=26, help='output channel of network')
-    parser.add_argument('--max_iterations', type=int,
-                        default=15000, help='maximum epoch number to train')
-    parser.add_argument('--max_epochs', type=int,
-                        default=150, help='maximum epoch number to train')
-    parser.add_argument('--batch_size', type=int,
-                        default=1, help='batch_size per gpu')  # 24
-    parser.add_argument('--n_gpu', type=int, default=1, help='total gpu')
-    parser.add_argument('--deterministic', type=int, default=1,
-                        help='whether use deterministic training')
-    parser.add_argument('--base_lr', type=float, default=0.01,  # 0.01
-                        help='segmentation network learning rate')
-    parser.add_argument('--img_size', type=int,
-                        default=[96, 144, 80], help='input patch size of network input')  # network input image size
-    parser.add_argument('--seed', type=int,
-                        default=1234, help='random seed')
-    parser.add_argument('--n_skip', type=int,
-                        default=3, help='using number of skip-connect, default is num')
-    parser.add_argument('--vit_name', type=str,
-                        default='R50-ViT-B_16', help='select one vit model')
-    parser.add_argument('--vit_patches_size', type=int,
-                        default=16, help='vit_patches_size, default is 16')
-    args = parser.parse_args()
-    main()
-
 
 
