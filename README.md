@@ -5,6 +5,11 @@ This is the official pytorch implementation of SLoRD.
 # Pipeline
 ![image](https://github.com/AlexYouXin/SLoRD-VerSe/blob/main/pipeline.png)
 
+* Extracted basic contour descriptors via SVD using the 'contour_descriptors' folder.
+* Acquiring coarse predictions with files in the folder 'the first stage'.
+* Refining coarse predictions with SLoRD using the folder 'the second stage'.
+
+
 # Detailed structures
 ![image](https://github.com/AlexYouXin/SLoRD-VerSe/blob/main/decoded_structure.png)
 
