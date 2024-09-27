@@ -26,7 +26,7 @@ If you use our code or models in your work or find it is helpful, please cite th
 ```
 @article{you2024slord,
   title={SLoRD: Structural Low-Rank Descriptors for Shape Consistency in Vertebrae Segmentation},
-  author={You, Xin and Lou, Yixin and Zhang, Minghui and Yang, Jie and Navab, Nassir and Gu, Yun},
+  author={Xin, You and Yixin, Lou and Minghui, Zhang and Jie, Yang and Nassir, Navab and Yun, Gu},
   journal={arXiv preprint arXiv:2407.08555},
   year={2024}
 }
