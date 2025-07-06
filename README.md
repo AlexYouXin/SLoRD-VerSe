@@ -24,10 +24,11 @@ Part of codes are borrowed from other open-source github projects.
 # Citation
 If you use our code or models in your work or find it is helpful, please cite the corresponding paper:  
 ```
-@article{you2024slord,
+@article{you2025slord,
   title={SLoRD: Structural Low-Rank Descriptors for Shape Consistency in Vertebrae Segmentation},
-  author={Xin, You and Yixin, Lou and Minghui, Zhang and Jie, Yang and Nassir, Navab and Yun, Gu},
-  journal={arXiv preprint arXiv:2407.08555},
-  year={2024}
+  author={You, Xin and Lou, Yixin and Zhang, Minghui and Yang, Jie and Gu, Yun},
+  journal={IEEE Journal of Biomedical and Health Informatics},
+  year={2025},
+  publisher={IEEE}
 }
 ```
